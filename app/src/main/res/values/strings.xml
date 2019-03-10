@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">TheWeather</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="wind_speed">Wind speed</string>
+    <string-array name="default_locations">
+        <item>London</item>
+        <item>New York</item>
+        <item>Berlin</item>
+        <item>Madrid</item>
+        <item>Tokyo</item>
+        <item>Sidney</item>
+        <item>Dubai</item>
+    </string-array>
+
+    <string name="location_name_error">Wrong location name</string>
+    <string name="add_location">Add location</string>
+    <string name="location_name">Location name</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+
+</resources>
