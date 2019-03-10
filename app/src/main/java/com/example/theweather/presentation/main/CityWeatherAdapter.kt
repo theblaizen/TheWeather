@@ -21,7 +21,6 @@ class CityWeatherAdapter(
         )
     }
 
-
     override fun getItemCount(): Int {
         return items.size
     }
