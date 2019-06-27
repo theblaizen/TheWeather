@@ -1,4 +1,3 @@
 package com.example.theweather.presentation.model
 
-class CityModelView(val cityName: String) {
-}
+class CityModelView(val cityName: String)

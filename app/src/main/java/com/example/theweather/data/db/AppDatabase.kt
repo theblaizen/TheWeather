@@ -10,7 +10,6 @@ import com.example.theweather.data.model.db.WeatherInfo
 @Database(entities = [WeatherData::class, WeatherInfo::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
-
     abstract fun cityWeatherDao(): CityWeatherDao
 
     abstract fun weatherInfoDao(): WeatherInfoDao

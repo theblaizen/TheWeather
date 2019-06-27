@@ -32,7 +32,7 @@ class CityWeatherAdapter(
 
     inner class CityViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cityName: TextView = itemView.tv_city_name
-        val temperatureInCity: TextView = itemView.tv_city_temperature
+        private val temperatureInCity: TextView = itemView.tv_city_temperature
 
         init {
             itemView.setOnClickListener {
@@ -47,7 +47,8 @@ class CityWeatherAdapter(
         }
 
         fun setCityTemperature(name: Double) {
-            temperatureInCity.text = (name - 273).toInt().toString() + " °C"
+            val temperatureInCelcius = (name - 273).toInt().toString() + " °C"
+            temperatureInCity.text = temperatureInCelcius
         }
     }
 }

@@ -25,7 +25,7 @@ class MainActivity : AppCompatActivity(), WeatherView {
 
     private lateinit var citiesList: RecyclerView
     private lateinit var cityWeatherAdapter: CityWeatherAdapter
-    private lateinit var weatherList: ArrayList<WeatherDataWithInfo>
+    private var weatherList: ArrayList<WeatherDataWithInfo> = ArrayList()
     private lateinit var defaultLocations: ArrayList<String>
 
     @Inject
@@ -38,8 +38,21 @@ class MainActivity : AppCompatActivity(), WeatherView {
 
         findViews()
 
-        weatherList = ArrayList()
+        initCityListView()
 
+        presenter.allCitiesWeatherFromDb()
+    }
+
+    private fun inject() {
+        App.createWeatherComponent()
+        App.weatherComponent?.inject(this)
+    }
+
+    private fun findViews() {
+        citiesList = rv_cities
+    }
+
+    private fun initCityListView() {
         cityWeatherAdapter = CityWeatherAdapter(weatherList) { position ->
             val intent = Intent(this@MainActivity, CityDetailActivity::class.java)
             intent.putExtra(Const.WEATHER_DETAIL, weatherList[position])
@@ -56,17 +69,6 @@ class MainActivity : AppCompatActivity(), WeatherView {
                 )
             )
         }
-        presenter.allCitiesWeatherFromDb()
-
-    }
-
-    private fun inject() {
-        App.createWeatherComponent()
-        App.weatherComponent?.inject(this)
-    }
-
-    private fun findViews() {
-        citiesList = rv_cities
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -112,17 +114,16 @@ class MainActivity : AppCompatActivity(), WeatherView {
             defaultLocations.forEach { name ->
                 presenter.cityWeather(name)
             }
-
         }
     }
 
     override fun showAllCityWeatherInfo(data: List<WeatherInfo>) {
-
+        // handle all city weather info from database
     }
 
     override fun showCityWeatherInfo(data: WeatherInfo) {
+        // handle city weather info from database
     }
-
 
     override fun showError(reason: String) {
         Toast.makeText(this, resources.getString(R.string.location_name_error), Toast.LENGTH_LONG).show()
@@ -133,11 +134,8 @@ class MainActivity : AppCompatActivity(), WeatherView {
         super.onStop()
     }
 
-
     override fun onDestroy() {
         App.recycleWeatherComponent()
         super.onDestroy()
     }
-
-
 }

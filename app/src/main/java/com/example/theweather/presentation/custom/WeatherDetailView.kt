@@ -34,6 +34,10 @@ class WeatherDetailView : ConstraintLayout {
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+        findViews()
+    }
+
+    private fun findViews() {
         weatherIcon = iv_weather_icon
         locationName = tv_location_name
         weatherMainInfo = tv_weather_info

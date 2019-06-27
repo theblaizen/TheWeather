@@ -23,13 +23,12 @@ class WeatherPresenter(
                 .subscribeOn(Schedulers.io())
                 .observeOn(observeOnSchedulers)
                 .subscribe({
-                        cityWeatherFromDb(cityName)
-                    },
-                    { error ->
-                        view?.showError(error.localizedMessage)
-                    }
+                               cityWeatherFromDb(cityName)
+                           },
+                           { error ->
+                               view?.showError(error.localizedMessage)
+                           }
                 ).disposeBy(disposable)
-
         }
     }
 
@@ -57,7 +56,6 @@ class WeatherPresenter(
                     view?.showError(error.localizedMessage)
                 }
             ).disposeBy(disposable)
-
     }
 
     fun allWeatherInfo() {

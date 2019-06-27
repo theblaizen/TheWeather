@@ -15,7 +15,6 @@ class WeatherUseCaseImpl(
     private val localStorageGateway: LocalStorageGateway
 ) : WeatherUseCase {
 
-
     override fun getCityWeather(model: CityModelView): Completable {
         val cityWeatherModel = CityDomainModel(model.cityName)
         return weatherGateway.cityWeather(cityWeatherModel)

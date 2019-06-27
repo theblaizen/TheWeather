@@ -23,5 +23,4 @@ interface CityWeatherDao {
     @Transaction
     @Query("SELECT * FROM city_table WHERE name = :locationName")
     fun getCity(locationName: String): Single<WeatherDataWithInfo>
-
 }

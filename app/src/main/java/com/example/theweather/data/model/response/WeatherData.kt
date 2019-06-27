@@ -40,8 +40,3 @@ data class WeatherInfo(
 data class Clouds(
     var all: Double = 0.0
 )
-
-
-
-
-
