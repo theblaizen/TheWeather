@@ -7,4 +7,5 @@ object Const {
     const val FORECAST_IMAGES_URL = "http://openweathermap.org/img/w/"
     const val API_KEY = "b2b49c662155984b29f5273ae8d7c645"
     const val LOG_DEBUG = "LOG_DEBUG"
+    const val KELVIN_DIFF = 273
 }

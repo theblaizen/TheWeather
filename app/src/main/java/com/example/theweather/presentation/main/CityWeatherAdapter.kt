@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.theweather.R
 import com.example.theweather.data.model.db.WeatherDataWithInfo
+import com.example.theweather.util.toCelcius
 import kotlinx.android.synthetic.main.item_city.view.*
 
 class CityWeatherAdapter(
@@ -46,9 +47,8 @@ class CityWeatherAdapter(
             cityName.text = name
         }
 
-        fun setCityTemperature(name: Double) {
-            val temperatureInCelcius = (name - 273).toInt().toString() + " °C"
-            temperatureInCity.text = temperatureInCelcius
+        fun setCityTemperature(temperature: Double) {
+            temperatureInCity.text = temperature.toCelcius()
         }
     }
 }
