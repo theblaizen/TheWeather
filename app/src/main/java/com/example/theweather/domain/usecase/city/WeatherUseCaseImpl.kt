@@ -1,7 +1,8 @@
 package com.example.theweather.domain.usecase.city
 
 import android.util.Log
-import com.example.theweather.data.model.db.*
+import com.example.theweather.data.model.db.WeatherDataWithInfo
+import com.example.theweather.data.model.db.WeatherInfo
 import com.example.theweather.domain.model.CityDomainModel
 import com.example.theweather.domain.usecase.local_storage.LocalStorageGateway
 import com.example.theweather.presentation.main.WeatherUseCase
@@ -18,44 +19,10 @@ class WeatherUseCaseImpl(
     override fun getCityWeather(model: CityModelView): Completable {
         val cityWeatherModel = CityDomainModel(model.cityName)
         return weatherGateway.cityWeather(cityWeatherModel)
-            .doOnSuccess { data ->
-                localStorageGateway.saveCityWeather(
-                    WeatherData(
-                        dt = data.dt,
-                        name = data.name,
-                        cod = data.cod,
-                        main = Main(
-                            temp = data.main.temp,
-                            tempMin = data.main.tempMin,
-                            humidity = data.main.humidity,
-                            pressure = data.main.pressure,
-                            tempMax = data.main.tempMax
-                        ),
-                        clouds = Clouds(
-                            all = data.clouds.all
-                        ),
-                        id = data.id,
-                        base = data.base,
-                        wind = Wind(
-                            deg = data.wind.deg,
-                            speed = data.wind.speed
-                        )
-                    )
-                )
-                if (data.weatherInfo.isNotEmpty()) {
-                    data.weatherInfo.forEach {
-                        localStorageGateway.saveWeatherInfo(
-                            WeatherInfo(
-                                weatherId = it.weatherId,
-                                main = it.main,
-                                desciption = it.desciption,
-                                icon = it.icon,
-                                locationId = data.id,
-                                locationName = data.name
-                            )
-                        )
-                    }
-                }
+            .map(WeatherDomainMapper)
+            .doOnSuccess { (weatherData, weatherInfo) ->
+                localStorageGateway.saveCityWeather(weatherData)
+                localStorageGateway.saveWeatherInfo(weatherInfo)
             }.doOnError {
                 Log.d(Const.LOG_DEBUG, "", it)
             }
