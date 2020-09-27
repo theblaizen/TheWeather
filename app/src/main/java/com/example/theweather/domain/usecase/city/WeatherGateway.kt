@@ -5,7 +5,5 @@ import com.example.theweather.domain.model.CityDomainModel
 import io.reactivex.Single
 
 interface WeatherGateway {
-    fun cityWeather(
-        cityWeatherModel: CityDomainModel
-    ): Single<WeatherResponse>
+    fun cityWeather(cityWeatherModel: CityDomainModel): Single<WeatherResponse>
 }

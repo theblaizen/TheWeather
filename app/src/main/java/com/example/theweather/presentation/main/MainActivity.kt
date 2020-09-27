@@ -44,8 +44,7 @@ class MainActivity : AppCompatActivity(), WeatherView {
     }
 
     private fun inject() {
-        App.createWeatherComponent()
-        App.weatherComponent?.inject(this)
+        App.getAppWeatherComponent()?.inject(this)
     }
 
     private fun findViews() {
