@@ -25,20 +25,18 @@ class App : Application() {
     }
 
     companion object {
-        var component: AppComponent? = null
-            private set
-        var weatherComponent: WeatherComponent? = null
-            private set
+        private var component: AppComponent? = null
+        private var weatherComponent: WeatherComponent? = null
 
-        fun createWeatherComponent() {
-            weatherComponent = DaggerWeatherComponent.builder()
+        fun getAppWeatherComponent(): WeatherComponent? {
+            return weatherComponent ?: DaggerWeatherComponent.builder()
                 .appComponent(component)
                 .build()
+                .also { weatherComponent = it }
         }
 
         fun recycleWeatherComponent() {
             weatherComponent = null
         }
-
     }
 }
