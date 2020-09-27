@@ -50,7 +50,8 @@ data class Clouds(
         onDelete = ForeignKey.CASCADE
     )]
 )
-data class WeatherInfo(
+
+open class WeatherInfo(
     var weatherId: Int = 0,
     var main: String = "",
     var desciption: String = "",
@@ -59,6 +60,8 @@ data class WeatherInfo(
     var locationId: Int = 0,
     var locationName: String = ""
 ) : Serializable
+
+object WeatherInfoDefault : WeatherInfo()
 
 data class WeatherDataWithInfo(
     @Embedded
