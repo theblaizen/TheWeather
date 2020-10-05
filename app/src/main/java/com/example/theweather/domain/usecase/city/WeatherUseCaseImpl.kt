@@ -1,8 +1,10 @@
 package com.example.theweather.domain.usecase.city
 
 import android.util.Log
-import com.example.theweather.data.model.db.*
+import com.example.theweather.data.model.db.WeatherDataWithInfo
+import com.example.theweather.data.model.db.WeatherInfo
 import com.example.theweather.domain.model.CityDomainModel
+import com.example.theweather.domain.usecase.city.mapper.WeatherInfoResponseToWeatherInfoDataMapper
 import com.example.theweather.domain.usecase.city.mapper.WeatherResponseToWeatherDataMapper
 import com.example.theweather.domain.usecase.local_storage.LocalStorageGateway
 import com.example.theweather.presentation.main.WeatherUseCase
@@ -24,14 +26,7 @@ class WeatherUseCaseImpl(
                 if (data.weatherInfo.isNotEmpty()) {
                     data.weatherInfo.forEach {
                         localStorageGateway.saveWeatherInfo(
-                            WeatherInfo(
-                                weatherId = it.weatherId,
-                                main = it.main,
-                                desciption = it.desciption,
-                                icon = it.icon,
-                                locationId = data.id,
-                                locationName = data.name
-                            )
+                            WeatherInfoResponseToWeatherInfoDataMapper(data.id, data.name).map(it)
                         )
                     }
                 }
