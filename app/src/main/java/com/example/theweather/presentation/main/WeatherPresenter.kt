@@ -2,7 +2,7 @@ package com.example.theweather.presentation.main
 
 import com.example.theweather.presentation.base.BasePresenter
 import com.example.theweather.presentation.model.CityModelView
-import com.example.theweather.util.disposeBy
+import com.example.theweather.util.extensions.disposeBy
 import com.example.theweather.util.service.UiUtil
 import io.reactivex.Scheduler
 import io.reactivex.disposables.CompositeDisposable

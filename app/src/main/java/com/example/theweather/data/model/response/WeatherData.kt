@@ -7,16 +7,16 @@ data class WeatherResponse(
     var dt: Int = 0,
     var name: String = "",
     var cod: Int = 0,
-    var main: Main,
-    var clouds: Clouds,
+    var main: MainResponse,
+    var clouds: CloudsResponse,
     @SerializedName("weather")
-    var weatherInfo: List<WeatherInfo>,
+    var weatherInfo: List<WeatherInfoResponse>,
     var id: Int = 0,
     var base: String = "",
-    var wind: Wind
+    var wind: WindResponse
 )
 
-data class Main(
+data class MainResponse(
     var temp: Double = 0.0,
     var tempMin: Double = 0.0,
     var humidity: Int = 0,
@@ -24,12 +24,12 @@ data class Main(
     var tempMax: Double = 0.0
 )
 
-data class Wind(
+data class WindResponse(
     var deg: Double = 0.0,
     var speed: Double = 0.0
 )
 
-data class WeatherInfo(
+data class WeatherInfoResponse(
     @SerializedName("id")
     var weatherId: Int = 0,
     var main: String = "",
@@ -37,6 +37,6 @@ data class WeatherInfo(
     var icon: String = ""
 )
 
-data class Clouds(
+data class CloudsResponse(
     var all: Double = 0.0
 )

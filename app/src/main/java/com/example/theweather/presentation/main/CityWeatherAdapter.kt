@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.theweather.R
 import com.example.theweather.data.model.db.WeatherDataWithInfo
-import com.example.theweather.util.toCelcius
+import com.example.theweather.util.extensions.toCelcius
 import kotlinx.android.synthetic.main.item_city.view.*
 
 class CityWeatherAdapter(
