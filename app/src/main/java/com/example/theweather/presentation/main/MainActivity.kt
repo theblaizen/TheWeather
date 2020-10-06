@@ -78,17 +78,20 @@ class MainActivity : AppCompatActivity(), WeatherView {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item?.itemId) {
         R.id.add_location -> {
-            val fragmentManager = supportFragmentManager.beginTransaction()
-            val dialog = AddLocationDialog.newInstance()
-            dialog.setOnAddLocationListener(object : OnAddLocationListener {
+            showAddLocationDialog()
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun showAddLocationDialog() {
+        AddLocationDialog.newInstance().apply {
+            setOnAddLocationListener(object : OnAddLocationListener {
                 override fun onAddClicked(location: String) {
                     presenter.cityWeather(location)
                 }
             })
-            dialog.show(fragmentManager, "add_location_dialog")
-            true
-        }
-        else -> super.onOptionsItemSelected(item)
+        }.show(supportFragmentManager, AddLocationDialog::class.java.name)
     }
 
     override fun onStart() {
@@ -126,7 +129,8 @@ class MainActivity : AppCompatActivity(), WeatherView {
     }
 
     override fun showError(reason: String) {
-        Toast.makeText(this, resources.getString(R.string.location_name_error), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, resources.getString(R.string.location_name_error), Toast.LENGTH_LONG)
+            .show()
     }
 
     override fun onStop() {

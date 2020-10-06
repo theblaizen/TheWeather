@@ -13,28 +13,21 @@ import com.google.android.material.textfield.TextInputEditText
 import kotlinx.android.synthetic.main.dialog_add_location.*
 
 
-class AddLocationDialog() : DialogFragment() {
+class AddLocationDialog : DialogFragment() {
 
     private lateinit var locationName: TextInputEditText
     private lateinit var submit: TextView
     private lateinit var cancel: TextView
     private var listener: OnAddLocationListener? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.dialog_add_location, container, false)
-        return view
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.dialog_add_location, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         findViews()
         setClickListeners()
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -47,7 +40,6 @@ class AddLocationDialog() : DialogFragment() {
         submit = btn_add
         cancel = btn_cancel
         locationName = et_location_name
-
     }
 
     private fun setClickListeners() {

@@ -1,63 +1,69 @@
 package com.example.theweather.presentation.main
 
-import com.example.theweather.presentation.base.BasePresenter
+import com.example.theweather.presentation.base.BaseRxPresenter
 import com.example.theweather.presentation.model.CityModelView
-import com.example.theweather.util.extensions.disposeBy
+import com.example.theweather.util.extensions.*
 import com.example.theweather.util.service.UiUtil
 import io.reactivex.Scheduler
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
 class WeatherPresenter(
     private val cityUseCase: WeatherUseCase,
     private val uiUtil: UiUtil,
     private val observeOnSchedulers: Scheduler
-) : BasePresenter<WeatherView>() {
-
-    private val disposable = CompositeDisposable()
+) : BaseRxPresenter<WeatherView>() {
 
     fun cityWeather(cityName: String) {
         if (uiUtil.isNetworkAvailable()) {
-            val cityWeatherResponse = cityUseCase.getCityWeather(CityModelView(cityName))
-            cityWeatherResponse
+            val stream = cityUseCase.getCityWeather(CityModelView(cityName))
                 .subscribeOn(Schedulers.io())
                 .observeOn(observeOnSchedulers)
-                .subscribe({
-                               cityWeatherFromDb(cityName)
-                           },
-                           { error ->
-                               view?.showError(error.localizedMessage)
-                           }
-                ).disposeBy(disposable)
+                .wrapWithStreamWrapper()
+                .share()
+
+            stream.filterSuccess().receive()
+                .subscribe { cityWeatherFromDb(cityName) }
+                .disposeBy(bag)
+
+            stream.filterError().toss()
+                .subscribe { error -> view?.showError(error.localizedMessage) }
+                .disposeBy(bag)
         }
     }
 
-    fun cityWeatherFromDb(city: String) {
-        cityUseCase.getCityWeatherFromDb(CityModelView(city))
+    private fun cityWeatherFromDb(city: String) {
+        val stream = cityUseCase.getCityWeatherFromDb(CityModelView(city))
             .subscribeOn(Schedulers.io())
             .observeOn(observeOnSchedulers)
-            .subscribe({ result ->
-                           view?.showCityWeather(result)
-                       },
-                       {
-                           view?.showError(it.localizedMessage)
-                       }).disposeBy(disposable)
+            .wrapWithStreamWrapper()
+            .share()
+
+        stream.filterSuccess().receive()
+            .subscribe { view?.showCityWeather(it) }
+            .disposeBy(bag)
+
+        stream.filterError().toss()
+            .subscribe { error -> view?.showError(error.localizedMessage) }
+            .disposeBy(bag)
     }
 
     fun allCitiesWeatherFromDb() {
-        cityUseCase.getAllCitiesWeatherFromDb()
+        val stream = cityUseCase.getAllCitiesWeatherFromDb()
             .subscribeOn(Schedulers.io())
             .observeOn(observeOnSchedulers)
-            .subscribe(
-                { result ->
-                    view?.showAllCitiesWeather(result)
-                },
-                { error ->
-                    view?.showError(error.localizedMessage)
-                }
-            ).disposeBy(disposable)
+            .wrapWithStreamWrapper()
+            .share()
+
+        stream.filterSuccess().receive()
+            .subscribe { view?.showAllCitiesWeather(it) }
+            .disposeBy(bag)
+
+        stream.filterError().toss()
+            .subscribe { error -> view?.showError(error.localizedMessage) }
+            .disposeBy(bag)
     }
 
+    @Deprecated("Unused")
     fun allWeatherInfo() {
         cityUseCase.getAllWeatherInfoFromDB()
             .subscribeOn(Schedulers.io())
@@ -67,11 +73,6 @@ class WeatherPresenter(
                        },
                        {
                            view?.showError(it.localizedMessage)
-                       }).disposeBy(disposable)
-    }
-
-    override fun detachView(view: WeatherView) {
-        disposable.clear()
-        super.detachView(view)
+                       }).disposeBy(bag)
     }
 }

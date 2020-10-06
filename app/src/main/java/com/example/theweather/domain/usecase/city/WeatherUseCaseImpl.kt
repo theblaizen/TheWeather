@@ -18,7 +18,7 @@ class WeatherUseCaseImpl(
     private val localStorageGateway: LocalStorageGateway
 ) : WeatherUseCase {
 
-    override fun getCityWeather(model: CityModelView): Completable {
+    override fun getCityWeather(model: CityModelView): Single<Unit> {
         val cityWeatherModel = CityDomainModel(model.cityName)
         return weatherGateway.cityWeather(cityWeatherModel)
             .doOnSuccess { data ->
@@ -32,8 +32,7 @@ class WeatherUseCaseImpl(
                 }
             }.doOnError {
                 Log.d(Const.LOG_DEBUG, "", it)
-            }
-            .ignoreElement()
+            }.map { Unit }
     }
 
     override fun getCityWeatherFromDb(model: CityModelView): Single<WeatherDataWithInfo> {

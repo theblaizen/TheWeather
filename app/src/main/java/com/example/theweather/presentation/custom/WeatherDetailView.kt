@@ -10,7 +10,11 @@ import com.bumptech.glide.Glide
 import com.example.theweather.R
 import kotlinx.android.synthetic.main.view_weather_details.view.*
 
-class WeatherDetailView : ConstraintLayout {
+class WeatherDetailView @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private lateinit var weatherIcon: ImageView
     private lateinit var locationName: TextView
@@ -20,13 +24,6 @@ class WeatherDetailView : ConstraintLayout {
     private lateinit var windScore: TextView
     private lateinit var temperatureScore: TextView
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
-        context,
-        attrs,
-        defStyleAttr
-    )
 
     init {
         View.inflate(context, R.layout.view_weather_details, this)
@@ -72,7 +69,6 @@ class WeatherDetailView : ConstraintLayout {
     }
 
     fun setForecastImage(url: String) {
-        Glide.with(this).load(url)
-            .into(weatherIcon)
+        Glide.with(this).load(url).into(weatherIcon)
     }
 }

@@ -13,6 +13,7 @@ interface LocalStorageGateway {
 
     fun weatherInfo(cityWeatherModel: CityDomainModel): Single<WeatherInfo>
 
+    @Deprecated("Unused")
     fun allWeatherInfo(): Single<List<WeatherInfo>>
 
     fun saveCityWeather(weatherData: WeatherData)
